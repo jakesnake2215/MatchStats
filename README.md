@@ -39,3 +39,5 @@ New Functions to Implement
      - Understand Logic and Flow of User (Can ask a potential user (Whoever at bama does stat tracking))
      - Find and Use a Python Library that can ask user different type of questions (# of maps entered, different options, File Pathing, and show a siege gg like match page like currently seen in python terminal)
      - Find and Use a Python Library to access terminal to run r6-dissect and use json file in Stats script
+  - Team Clustering
+     - Create team based stats that make it easier to group players and track map wins and loses
