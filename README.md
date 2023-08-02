@@ -1,6 +1,3 @@
-# Initial Notes for Simon
-I would download the Python and Excel Files, as well as at least one of the json files to look at in vscode.
-**LET ME KNOW IF YOU RUN INTO ANY ISSUES**
 # MatchStats
 A python script to read through json files and show statistics and data from the map.
 Working from the work from redraskal on conversion of Match Replay .REC Files to json and xlsx files.
@@ -31,6 +28,7 @@ Bug Fixes/Improvements of Logic
       + Already Exists when it is a user's first time being added to excel sheet, only need for updating stats for 'existing users'
   - Ability to merge names (i.e. when someone changes their name, add ability to combine stats in excel)
   - Improvements of Rating System to better tailor for what are looking for (Can also revert to Reaper's linear approximation of Siege GG rating system [https://www.youtube.com/watch?v=faoQZK2875Q])
+  - Look into ability to see defusal of bomb, doesnt seem clear in the json files
 
 New Functions to Implement
   - Implement ability to combine different map stats into one list of ratings (Same 10 Players only)
