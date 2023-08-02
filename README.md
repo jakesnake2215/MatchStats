@@ -20,7 +20,7 @@ How to get the json file to use
 - Run Python Script
 
 
-# To-Do (As of: 8/1/2023)
+# To-Do (Last Changed: 8/1/2023)
 Code Refactoring and Restructuring
   - Create greater functionality of excel
   - Improve general readability and add greater comments
