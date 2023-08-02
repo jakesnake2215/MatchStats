@@ -1,3 +1,6 @@
+# Initial Notes for Simon
+I would download the Python and Excel Files, as well as at least one of the json files to look at in vscode.
+**LET ME KNOW IF YOU RUN INTO ANY ISSUES**
 # MatchStats
 A python script to read through json files and show statistics and data from the map.
 Working from the work from redraskal on conversion of Match Replay .REC Files to json and xlsx files.
