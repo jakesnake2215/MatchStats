@@ -1,5 +1,10 @@
 # MatchStats
 A python script to read through json files and show statistics and data from the map
+Working from the work from redraskal on conversion of Match Replay .REC Files to json and xlsx files
+For greater information on this: https://github.com/redraskal/r6-dissect
+Takes the json file and parses data for a Siege GG like functionality for stat collection
+Also stores this data into an excel file to allow for long term data collection over multiple maps
+Excel will store all player data, as well as individual operator statistics per player (Broken Down by sheets Stats and Operator Stats)
 
 # Basic How To for testing
 How to get the json file to use
