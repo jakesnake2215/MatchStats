@@ -41,3 +41,6 @@ New Functions to Implement
      - Find and Use a Python Library to access terminal to run r6-dissect and use json file in Stats script
   - Team Clustering
      - Create team based stats that make it easier to group players and track map wins and losses
+  - Viewing Day Off Stats
+     - Temporary File for viewing
+     - How to View all Matches (History Tab?)
