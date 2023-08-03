@@ -1,4 +1,5 @@
 import json
+import math
 import numpy as np
 import statistics
 import openpyxl
@@ -652,14 +653,14 @@ for i in range(len(Users)):
                 tempRating = ratingSys(OperatorKills[i][b],tempKD, OperatorMKills[i][b], OperatorEntryKills[i][b] - OperatorEntryDeaths[i][b], OperatorPlants[i][b], OperatorClutch[i][b], tempKOST, tempSRV, OperatorRounds[i][b] )
 
             #Array to add to excel when all compiled
-            array.append(tempRating)
-            OperatorRating.append(tempRating)
+            array.append(round((tempRating),2))
+            OperatorRating.append(round((tempRating),2))
             array.append(OperatorKills[i][b])
             array.append(OperatorDeaths[i][b])
             array.append(OperatorEntryKills[i][b])
             array.append(OperatorEntryDeaths[i][b])
-            array.append(tempKOST)
-            array.append(tempHS)
+            array.append(round(tempKOST,2))
+            array.append(round(tempHS,2))
             array.append(OperatorMKills[i][b])
             array.append(OperatorTrades[i][b])
             array.append(OperatorClutch[i][b])
@@ -707,7 +708,7 @@ for i in range(len(Users)):
             if Op_array[matchingValue][10+12*d] == 0:
                 Op_array[matchingValue][15+12*d] = 0
             else:
-                Op_array[matchingValue][15+12*d] = (Op_array[matchingValue][15+12*d]*Op_array[matchingValue][10+12*d] + OperatorHS[i][d])/(Op_array[matchingValue][10+12*d] + OperatorKills[i][d])
+                Op_array[matchingValue][15+12*d] = round((Op_array[matchingValue][15+12*d]*Op_array[matchingValue][10+12*d] + OperatorHS[i][d])/(Op_array[matchingValue][10+12*d] + OperatorKills[i][d]),2)
             #Updates all values that are empirical
             Op_array[matchingValue][10+12*d] = Op_array[matchingValue][10+12*d] + OperatorKills[i][d]
             Op_array[matchingValue][11+12*d] = Op_array[matchingValue][11+12*d] + OperatorDeaths[i][d]
@@ -729,9 +730,9 @@ for i in range(len(Users)):
                 tempSRV = 0
                 tempRating = 0
             else:
-                Op_array[matchingValue][14+12*d] = (Op_array[matchingValue][14+12*d]*Op_array[matchingValue][20+12*d] + OperatorKOST[i][d])/(Op_array[matchingValue][20+12*d] + OperatorRounds[i][d])
+                Op_array[matchingValue][14+12*d] = round((Op_array[matchingValue][14+12*d]*Op_array[matchingValue][20+12*d] + OperatorKOST[i][d])/(Op_array[matchingValue][20+12*d] + OperatorRounds[i][d]),2)
                 tempSRV = (Op_array[matchingValue][20+12*d] - Op_array[matchingValue][11+12*d])/Op_array[matchingValue][20+12*d]
-                tempRating = ratingSys(Op_array[matchingValue][10+12*d], tempKD, Op_array[matchingValue][16+12*d], Op_array[matchingValue][12+12*d] - Op_array[matchingValue][13+12*d], Op_array[matchingValue][19+12*d], Op_array[matchingValue][18+12*d], Op_array[matchingValue][14+12*d], tempSRV, Op_array[matchingValue][20+12*d])
+                tempRating = round(ratingSys(Op_array[matchingValue][10+12*d], tempKD, Op_array[matchingValue][16+12*d], Op_array[matchingValue][12+12*d] - Op_array[matchingValue][13+12*d], Op_array[matchingValue][19+12*d], Op_array[matchingValue][18+12*d], Op_array[matchingValue][14+12*d], tempSRV, Op_array[matchingValue][20+12*d]),2)
             Op_array[matchingValue][9+12*d] = tempRating
             #Updates the attacker ratings per operator
             if d >= 34:
@@ -795,27 +796,27 @@ for i in range(len(Users)):
         ExcelTrade.append(round(Trade[i]/Deaths[i],2))
         ExcelClutch.append(round(Clutch[i]/Rounds[i],2))
         ExcelPlants.append(round(Plant[i]/(Rounds[i]/2),2))
-        ExcelHS.append(round(HS[i],2))
+        ExcelHS.append(math.ceil(HS[i]))
         ExcelRound.append(Rounds[i])
     #If match, update the value and replace at position
     else:
-        ExcelHS[matchingValue] = (ExcelHS[matchingValue]*ExcelKills[matchingValue] + HS[i]*Kills[i])/(ExcelKills[matchingValue] + Kills[i])
+        ExcelHS[matchingValue] = math.ceil((ExcelHS[matchingValue]*ExcelKills[matchingValue] + HS[i]*Kills[i])/(ExcelKills[matchingValue] + Kills[i]))
         ExcelKills[matchingValue] = ExcelKills[matchingValue] + Kills[i]
         ExcelDeaths[matchingValue] = ExcelDeaths[matchingValue] + Deaths[i]
-        ExcelKD[matchingValue] = ExcelKills[matchingValue]/ExcelDeaths[matchingValue]
+        ExcelKD[matchingValue] = round(ExcelKills[matchingValue]/ExcelDeaths[matchingValue],2)
         ExcelEK[matchingValue] = ExcelEK[matchingValue] + EKills[i]
         ExcelED[matchingValue] = ExcelED[matchingValue] + EDeaths[i]
         ExcelEntry[matchingValue] = ExcelEK[matchingValue] - ExcelED[matchingValue]
-        ExcelKOST[matchingValue] = (ExcelKOST[matchingValue]*ExcelRound[matchingValue] + KOST[i])/(ExcelRound[matchingValue] + Rounds[i])
-        ExcelKPR[matchingValue] = (ExcelKPR[matchingValue]*ExcelRound[matchingValue] + Kills[i])/(ExcelRound[matchingValue] + Rounds[i])
-        ExcelSRV[matchingValue] = ((ExcelRound[matchingValue] + Rounds[i]) - ExcelDeaths[matchingValue])/(ExcelRound[matchingValue] + Rounds[i])
-        ExcelMKills[matchingValue] = ExcelMKills[matchingValue] + MK[i]
-        ExcelTrade[matchingValue] = ExcelTrade[matchingValue] + Trade[i]
-        ExcelClutch[matchingValue] = ExcelClutch[matchingValue] + Clutch[i]
-        ExcelPlants[matchingValue] = ExcelPlants[matchingValue] + Plant[i]
+        ExcelKOST[matchingValue] = round((ExcelKOST[matchingValue]*ExcelRound[matchingValue] + KOST[i])/(ExcelRound[matchingValue] + Rounds[i]),2)
+        ExcelKPR[matchingValue] = round((ExcelKPR[matchingValue]*ExcelRound[matchingValue] + Kills[i])/(ExcelRound[matchingValue] + Rounds[i]),2)
+        ExcelSRV[matchingValue] = round(((ExcelRound[matchingValue] + Rounds[i]) - ExcelDeaths[matchingValue])/(ExcelRound[matchingValue] + Rounds[i]),2)
+        ExcelMKills[matchingValue] = round((ExcelMKills[matchingValue]*ExcelRound[matchingValue] + MK[i])/(ExcelRound[matchingValue]+Rounds[i]),2)
+        ExcelTrade[matchingValue] = round((ExcelTrade[matchingValue]*ExcelRound[matchingValue] + Trade[i])/(ExcelRound[matchingValue]+Rounds[i]),2)
+        ExcelClutch[matchingValue] = round((ExcelClutch[matchingValue]*ExcelRound[matchingValue] + Clutch[i])/(ExcelRound[matchingValue]+Rounds[i]),2)
+        ExcelPlants[matchingValue] = round((ExcelPlants[matchingValue]*ExcelRound[matchingValue] + Plant[i])/(ExcelRound[matchingValue]+Rounds[i]),2)
         
         ExcelRound[matchingValue] = ExcelRound[matchingValue] + Rounds[i]
-        ExcelRating[matchingValue] = ratingSys(ExcelKills[matchingValue], ExcelKD[matchingValue], ExcelMKills[matchingValue], ExcelEntry[matchingValue], ExcelPlants[matchingValue], ExcelClutch[matchingValue], ExcelKOST[matchingValue], ExcelSRV[matchingValue], ExcelRound[matchingValue])
+        ExcelRating[matchingValue] = round(ratingSys(ExcelKills[matchingValue], ExcelKD[matchingValue], ExcelMKills[matchingValue], ExcelEntry[matchingValue], ExcelPlants[matchingValue], ExcelClutch[matchingValue], ExcelKOST[matchingValue], ExcelSRV[matchingValue], ExcelRound[matchingValue]),2)
  
 
 
@@ -898,7 +899,7 @@ for h in range(len(Users)):
 
 # Save the changes
 #This is how to get the Excel file to save the changes that were made
-#workbook.save(filename=Excel)
+workbook.save(filename=Excel)
 
 
 #These are examples of how to access the data in python per operator stats
