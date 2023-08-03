@@ -17,15 +17,12 @@ How to get the json file to use
 - Run Python Script
 
 
-# To-Do (Last Changed: 8/1/2023)
+# To-Do (Last Changed: 8/3/2023)
 Code Refactoring and Restructuring
   - Create greater functionality of excel
   - Improve general readability and add greater comments
 
 Bug Fixes/Improvements of Logic
-  - Fix HS Percentage calculation
-  - Add Rounding to Excel sheets when stats already exist
-      + Already Exists when it is a user's first time being added to excel sheet, only need for updating stats for 'existing users'
   - Ability to merge names (i.e. when someone changes their name, add ability to combine stats in excel)
   - Improvements of Rating System to better tailor for what are looking for (Can also revert to Reaper's linear approximation of Siege GG rating system [https://www.youtube.com/watch?v=faoQZK2875Q])
   - Look into ability to see defusal of bomb, doesnt seem clear in the json files
