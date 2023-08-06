@@ -19,7 +19,7 @@ How to get the json file to use
 
 # To-Do (Last Changed: 8/3/2023)
 Code Refactoring and Restructuring
-  - Create greater functionality of excel
+  - Create greater functionality of excel (Read multiple maps and Read through a rehost)
   - Improve general readability and add greater comments
 
 Bug Fixes/Improvements of Logic
