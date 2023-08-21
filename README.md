@@ -1,4 +1,4 @@
-# MatchStats
+# MatchStats README (Last Changed: 8/3/2023)
 A python script to read through json files and show statistics and data from the map.
 Working from the work from redraskal on conversion of Match Replay .REC Files to json and xlsx files.
 (For greater information on this: https://github.com/redraskal/r6-dissect)
@@ -17,17 +17,18 @@ How to get the json file to use
 - Run Python Script
 
 
-# To-Do (Last Changed: 8/3/2023)
+# To-Do 
 Code Refactoring and Restructuring
-  - Create greater functionality of excel (Read multiple maps and Read through a rehost)
+  - Create greater functionality of excel (Read multiple maps / Read through a rehost)
   - Improve general readability and add greater comments
+  - Create Functions for excel files to improve readability
 
 Bug Fixes/Improvements of Logic
   - Ability to merge names (i.e. when someone changes their name, add ability to combine stats in excel)
   - Improvements of Rating System to better tailor for what are looking for (Can also revert to Reaper's linear approximation of Siege GG rating system [https://www.youtube.com/watch?v=faoQZK2875Q])
   - Look into ability to see defusal of bomb, doesnt seem clear in the json files
 
-New Functions to Implement
+# New Functions to Implement
   - Implement ability to combine different map stats into one list of ratings (Same 10 Players only)
       - While also still adding to excel file
   - Design and Impliment UI
@@ -35,7 +36,11 @@ New Functions to Implement
      - Find and Use a Python Library that can ask user different type of questions (# of maps entered, different options, File Pathing, and show a siege gg like match page like currently seen in python terminal)
      - Find and Use a Python Library to access terminal to run r6-dissect and use json file in Stats script
   - Team Clustering
+     - In Excel or other data storage, cluster teams based on what team they play for
      - Create team based stats that make it easier to group players and track map wins and losses
-  - Viewing Day Off Stats
+  - Viewing Day Of Stats
      - Temporary File for viewing
      - How to View all Matches (History Tab?)
+  - Further Research
+     - Greater Usage of Excel Files from Python Scripting
+     - Changes in the system of 'Stats' excel sheet
