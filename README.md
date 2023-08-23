@@ -23,6 +23,7 @@ Code Refactoring and Restructuring
   - Improve general readability and add greater comments
   - Create Functions for excel files to improve readability
   - Make the Op Stats Page For Loop print the op names and necessary data points
+  - Eliminate Hardcoded Values to make new operator additions more seamless
 
 Bug Fixes/Improvements of Logic
   - Ability to merge names (i.e. when someone changes their name, add ability to combine stats in excel)
