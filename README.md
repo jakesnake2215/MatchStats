@@ -25,6 +25,7 @@ Code Refactoring and Restructuring
 
 Bug Fixes/Improvements of Logic
   - Ability to merge names (i.e. when someone changes their name, add ability to combine stats in excel)
+  - Change header on stats page so can start with bare excel file
   - Improvements of Rating System to better tailor for what are looking for (Can also revert to Reaper's linear approximation of Siege GG rating system [https://www.youtube.com/watch?v=faoQZK2875Q])
   - Look into ability to see defusal of bomb, doesnt seem clear in the json files
   - Fix the Most Played Operator through multiple map, single series logic
