@@ -1,4 +1,4 @@
-# MatchStats README (Last Changed: 8/21/2023)
+# MatchStats README (Last Changed: 8/23/2023)
 A python script to read through json files and show statistics and data from the map.
 Working from the work from redraskal on conversion of Match Replay .REC Files to json and xlsx files.
 (For greater information on this: https://github.com/redraskal/r6-dissect)
