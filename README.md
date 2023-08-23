@@ -19,9 +19,7 @@ How to get the json file to use
 
 # To-Do 
 Code Refactoring and Restructuring
-  - Create greater functionality of excel (Read multiple maps / Read through a rehost)
   - Improve general readability and add greater comments
-  - Create Functions for excel files to improve readability
   - Make the Op Stats Page For Loop print the op names and necessary data points
   - Eliminate Hardcoded Values to make new operator additions more seamless
 
@@ -30,10 +28,9 @@ Bug Fixes/Improvements of Logic
   - Improvements of Rating System to better tailor for what are looking for (Can also revert to Reaper's linear approximation of Siege GG rating system [https://www.youtube.com/watch?v=faoQZK2875Q])
   - Look into ability to see defusal of bomb, doesnt seem clear in the json files
   - Fix the Most Played Operator through multiple map, single series logic
+    - Needs an error message if not same 10 players
 
 # New Functions to Implement
-  - Implement ability to combine different map stats into one list of ratings (Same 10 Players only)
-      - While also still adding to excel file
   - Design and Impliment UI
      - Understand Logic and Flow of User (Can ask a potential user (Whoever at bama does stat tracking))
      - Find and Use a Python Library that can ask user different type of questions (# of maps entered, different options, File Pathing, and show a siege gg like match page like currently seen in python terminal)
@@ -46,4 +43,5 @@ Bug Fixes/Improvements of Logic
      - How to View all Matches (History Tab?)
   - Further Research
      - Greater Usage of Excel Files from Python Scripting
+       - Create Functions for excel files to improve readability
      - Changes in the system of 'Stats' excel sheet
