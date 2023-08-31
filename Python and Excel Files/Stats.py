@@ -1,15 +1,14 @@
 import json
 import math
 import numpy as np
-import statistics
-import openpyxl
+import BasicStats
+import SingleMap
+import Operators
 from openpyxl import load_workbook
 
 
-Operators = {"Mute": 0, "Smoke": 1, "Castle": 2, "Pulse": 3, "Doc": 4, "Rook": 5, "Jager": 6, "Bandit": 7,"Tachanka": 8, "Kapkan": 9, "Frost": 10, "Valkyrie": 11, "Caveira": 12, "Echo": 13, "Mira": 14,"Lesion": 15, "Ela": 16, "Vigil": 17, "Alibi": 18, "Maestro": 19, "Clash": 20, "Kaid": 21, "Mozzie": 22,"Warden": 23, "Goyo": 24, "Wamai": 25, "Oryx": 26, "Melusi": 27, "Aruni": 28, "Thunderbird": 29,"Thorn": 30, "Azami": 31, "Solis": 32, "Fenrir": 33, "Sledge": 34, "Thatcher": 35, "Ash": 36,"Thermite": 37, "Montagne": 38, "Twitch": 39, "Blitz": 40, "IQ": 41, "Fuze": 42, "Glaz": 43,"Buck": 44, "Blackbeard": 45, "Capitao": 46, "Hibana": 47, "Jackal": 48, "Ying": 49, "Zofia": 50,"Dokkaebi": 51, "Finka": 52, "Lion": 53, "Maverick": 54, "Nomad": 55, "Gridlock": 56, "Nokk": 57,"Amaru": 58, "Kali": 59, "Iana": 60, "Ace": 61, "Zero": 62, "Flores": 63, "Osa": 64, "Sens": 65,"Grim": 66, "Brava": 67}
-OperatorsValues = {0: 'Mute', 1: 'Smoke', 2: 'Castle', 3: 'Pulse', 4: 'Doc', 5: 'Rook', 6: 'Jager', 7: 'Bandit', 8: 'Tachanka', 9: 'Kapkan', 10: 'Frost', 11: 'Valkyrie', 12: 'Caveira', 13: 'Echo', 14: 'Mira', 15: 'Lesion', 16: 'Ela', 17: 'Vigil', 18: 'Alibi', 19: 'Maestro', 20: 'Clash', 21: 'Kaid', 22: 'Mozzie', 23: 'Warden', 24: 'Goyo', 25: 'Wamai', 26: 'Oryx', 27: 'Melusi', 28: 'Aruni', 29: 'Thunderbird', 30: 'Thorn', 31: 'Azami', 32: 'Solis', 33: 'Fenrir', 34: 'Sledge', 35: 'Thatcher', 36: 'Ash', 37: 'Thermite', 38: 'Montagne', 39: 'Twitch', 40: 'Blitz', 41: 'IQ', 42: 'Fuze', 43: 'Glaz', 44: 'Buck', 45: 'Blackbeard', 46: 'Capitao', 47: 'Hibana', 48: 'Jackal', 49: 'Ying', 50: 'Zofia', 51: 'Dokkaebi', 52: 'Finka', 53: 'Lion', 54: 'Maverick', 55: 'Nomad', 56: 'Gridlock', 57: 'Nokk', 58: 'Amaru', 59: 'Kali', 60: 'Iana', 61: 'Ace', 62: 'Zero', 63: 'Flores', 64: 'Osa', 65: 'Sens', 66: 'Grim', 67: 'Brava'}
 #File Path Location of Excel Sheet
-Excel = 'C:\\Users\\jakeg\\OneDrive\\Desktop\\r6-dissect-v0.11.1-windows-amd64\\Stats.xlsx'
+Excel = '/home/gabe/Documents/MatchStats/main/Stats.xlsx'
 #Load the workbook into read cells
 workbook = load_workbook(filename=Excel)
 
@@ -144,435 +143,14 @@ OpNumbers = 68 #number of operators
 def ratingSys(rKills, rKD, rMK, rEntry, rPlants, rClutch, rKOST, rSRV, rRounds):
     rating = (rKD**2 + 0.4*(rKills) + 0.15*rMK)/rRounds + 0.75*(rEntry)/rRounds + (rPlants + rClutch)/rRounds + rKOST + rSRV/3
     return rating
-        
-#Creates Structs for each player and their stats
-class BasicStats:
-    #Initializes variables, (Why do I have to do this?)
-    def __init__(self, Username, Kills, Deaths, KD, EKills, EDeaths, Entry, KOST, KPR, SRV, MKills, Trade, Clutch, Plants, Defuse, HSPercent, FavAtk, FavDef, Rounds, OpK, OpD, OpKD, OpEK, OpED, OpEntry, OpKOST, OpKPR, OpSRV, OpMKills, OpTrade, OpClutch, OpPlants, OpDefuse, OpHS, OpRounds, MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name):
-        self.Username = Username
-        self.Kills = Kills
-        self.Deaths = Deaths
-        self.KD = KD
-        self.EKills = EKills
-        self.EDeaths = EDeaths
-        self.Entry = Entry
-        self.KOST = KOST
-        self.KPR = KPR
-        self.SRV = SRV
-        self.MKills = MKills
-        self.Trade = Trade
-        self.Clutch = Clutch
-        self.Plants = Plants
-        self.Defuse = Defuse
-        self.HSPercent = HSPercent
-        self.FavAtk = FavAtk
-        self.FavDef = FavDef
-        self.Rounds = Rounds
-        self.OpK = OpK
-        self.OpD = OpD
-        self.OpKD = OpKD
-        self.OpEK = OpEK
-        self.OpED = OpED
-        self.OpEntry = OpEntry
-        self.OpKOST = OpKOST
-        self.OpKPR = OpKPR
-        self.OpSRV = OpSRV
-        self.OpMKills = OpMKills
-        self.OpTrade = OpTrade
-        self.OpClutch = OpClutch
-        self.OpPlants = OpPlants
-        self.OpDefuse = OpDefuse
-        self.OpHS = OpHS
-        self.OpRounds = OpRounds
-        self.MapPlayed = MapPlayed
-        self.Team1Score = Team1Score
-        self.Team2Score = Team2Score
-        self.Team1Name = Team1Name
-        self.Team2Name = Team2Name
-        
-#Rating System, very basic
-#Same rating system as before
-    def rating(self):
-        rating = (self.KD**2 + 0.4*(self.Kills) + 0.15*self.MKills)/self.Rounds + 0.75*(self.Entry)/self.Rounds + (self.Plants + self.Clutch)/self.Rounds + self.KOST + self.SRV/3
-        return rating
-#Prints out all 'relevant' stats, in similar format as siegeGG, adds multikills and trades for greater visibility
-    def printIndivStat(self, intro):
-        #defines the rating in this def
-        rating = self.rating()
-        #if the first user printed, prints a header
-        
-        #Top part of the print, gives the map, and score and header
-        if(intro == 1):
-            print('Map: ' + self.MapPlayed)
-            print('')
-            print(Team1Name + ' - ' + Team2Name)
-            print(str(Team1Score) + '-' + str(Team2Score))
-            formatted_string = "{:<15} | {:<6} | {:<10} | {:<8} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<10} | {:<10}".format(
-                'Username', 'Rating', 'K-D(KD)', 'Entry', 'KOST', 'KPR', 'SRV', '1vX', 'Plants', 'Multis', 'Trades', 'HS', 'Attacker', 'Defender', '', ''
-            )
-            #copies the underlined text to the length of the text above and creates a line
-            underlined_string = formatted_string + '\n' + '-' * len(formatted_string)
-            print(underlined_string)
-
-        #formats the plus or minus in front of the KD and entry to make it + or -
-        PlusMinus = self.Kills - self.Deaths
-        if(PlusMinus > 0):
-            strKD = str(self.Kills) + '-' + str(self.Deaths) + '(+' + str(PlusMinus)+')'
-        else:
-            strKD = str(self.Kills) + '-' + str(self.Deaths) + '(' + str(PlusMinus)+')'
-        
-        #Same formatting for Entry Stats
-        EPlusMinus = self.EKills - self.EDeaths
-        if(EPlusMinus > 0):
-            strEntry = str(int(self.EKills)) + '-' + str(int(self.EDeaths)) + '(+'+str(int(EPlusMinus))+')'
-        else:
-            strEntry = str(int(self.EKills)) + '-' + str(int(self.EDeaths)) + '('+str(int(EPlusMinus))+')'
-        #formatting the text for each user and prints
-        formatKOST = "{:.2f}".format(self.KOST)
-        formatKPR = "{:.2f}".format(self.KPR)
-        formatRating = "{:.2f}".format(rating)
-        formatted_string = "{:<15} | {:<6} | {:<10} | {:<8} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<10} | {:<10}".format(
-            self.Username,
-            formatRating,
-            strKD,
-            strEntry,
-            formatKOST,
-            formatKPR,
-            str(int(self.SRV*100)) + '%',
-            int(self.Clutch),
-            int(self.Plants),
-            int(self.MKills),
-            int(self.Trade),
-            str(int(self.HSPercent)) + '%',
-            self.FavAtk,
-            self.FavDef
-        )
-        print(formatted_string)
-    #Define ratings for Operator Ratings for a player
-    def OperatorRating(self):
-        OperatorRating = np.zeros(OpNumbers)
-        #rating = (1.5*self.KD + 0.25*(self.Kills) + 0.15*self.MKills)/self.Rounds + 0.75*(self.Entry)/self.Rounds + (self.Plants + self.Clutch)/self.Rounds + self.KOST + self.SRV/3
-        for j in (range(OpNumbers)):
-            if self.OpRounds[j] == 0:
-                OperatorRating[j] = 0
-            else:
-                OperatorRating[j] = ((self.OpKD[j]**2 + 0.4*(self.OpK[j]) + 0.15*self.OpMKills[j])/self.OpRounds[j] + 0.75*(self.OpEntry[j])/self.OpRounds[j] + (self.OpPlants[j] + self.OpClutch[j])/self.OpRounds[j] + self.OpKOST[j] + (self.OpSRV[j])/3)
-        return OperatorRating
-    #Simple Way to read all player Operator Rating, just in python currently, but could be phased out
-    def AllOps(self):
-        Op = self.OperatorRating()
-        for k in (range(OpNumbers)):
-            number_str = Op[k]
-            roundedRating = "{:.2f}".format(float(number_str))
-            print(OperatorsValues[k] + ': ' + roundedRating)
-    #Similar to above, can look at individual player and full rating for a single operator, python only, either phase out or can be used in maybe a different aspect
-    #Very similar formatting to the full list for a single map, should be merged
-    def SingleOperatorStats(self, inputStr):
-        OperatorValue = Operators[inputStr]
-        print('\n')
-        OpsRate = self.OperatorRating()
-        
-        formatted_string = "{:<12} | {:<10} | {:<6} | {:<10} | {:<8} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6}".format(
-                'Player','Op Name', 'Rating', 'K-D(KD)', 'Entry', 'KOST', 'KPR', 'SRV', '1vX', 'Plants', 'Multis', 'Trades', 'HS', 'Rounds', '')
-        underlined_string = formatted_string + '\n' + '-' * len(formatted_string)
-        print(underlined_string)
-        PlusMinus = self.OpK[OperatorValue] - self.OpD[OperatorValue]
-        if(PlusMinus > 0):
-            strKD = str(int(self.OpK[OperatorValue])) + '-' + str(int(self.OpD[OperatorValue])) + '(+' + str(int(PlusMinus))+')'
-        else:
-            strKD = str(int(self.OpK[OperatorValue])) + '-' + str(int(self.OpD[OperatorValue])) + '(' + str(int(PlusMinus))+')'
-        
-        EPlusMinus = self.OpEK[OperatorValue] - self.OpED[OperatorValue]
-        if(EPlusMinus > 0):
-            strEntry = str(int(self.OpEK[OperatorValue])) + '-' + str(int(self.OpED[OperatorValue])) + '(+'+str(int(EPlusMinus))+')'
-        else:
-            strEntry = str(int(self.OpEK[OperatorValue])) + '-' + str(int(self.OpED[OperatorValue])) + '('+str(int(EPlusMinus))+')'
-        #formatting the text for each user and prints
-        if self.OpK[OperatorValue] == 0:
-            HS = 0
-        else:
-            HS = self.OpHS[OperatorValue]/self.OpK[OperatorValue]*100
-        formatKOST = "{:.2f}".format(self.OpKOST[OperatorValue])
-        formatKPR = "{:.2f}".format(self.OpKPR[OperatorValue])
-        formatRating = "{:.2f}".format(OpsRate[OperatorValue])
-        
-        formatted_string = "{:<12} | {:<10} | {:<6} | {:<10} | {:<8} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6} | {:<6}".format(
-            self.Username,
-            inputStr,
-            formatRating,
-            strKD,
-            strEntry,
-            formatKOST,
-            formatKPR,
-            str(int(self.OpSRV[OperatorValue]*100)) + '%',
-            int(self.OpClutch[OperatorValue]),
-            int(self.OpPlants[OperatorValue]),
-            int(self.OpMKills[OperatorValue]),
-            int(self.OpTrade[OperatorValue]),
-            str(int(HS)) + '%',
-            str(int(self.OpRounds[OperatorValue]))
-        )
-        print(formatted_string)
-            
-
-
-
-#Parses json file for all stats
-#Unable to determine how the disable works !!NEEDS TESTING!!
-def singleMap(dict):
-    #define all variables to pass through/use
-    Team1Score = 0
-    Team2Score = 0
-    #Takes the team names from the first round
-    Team1Name = dict["rounds"][0]["teams"][0]["name"]
-    Team2Name = dict["rounds"][0]["teams"][1]["name"]
-    UsernameList = []
-    UsernameLookup = {}
-    KAmount = []
-    DAmount = []
-    HSPercent = []
-    RoundCount = []
-    AtkMain = []
-    DefMain = []
-    #Note: The operator arrays are filled to -1, this is because if it was initialized at 0, could show a false positive of mute being played because he is operator 0
-    RoundOps = np.full(10,-1)
-    DTotalOps = np.array([])
-    ATotalOps = np.array([])
-    ARoundOps = np.full(10,-1)
-    DRoundOps = np.full(10,-1)
-    AMainOp = np.array([])
-    DMainOp = np.array([])
-    WinningTeamMembers = []
-    EntryKills = np.zeros(10)
-    EntryDeaths = np.zeros(10)
-    Plants = np.zeros(10)
-    Defusal = np.zeros(10)
-    KOSTRounds = np.zeros(10)
-    KOSTTotal=np.zeros(10)
-    KOSTSurv = np.zeros(10)
-    Clutches = np.zeros(10)
-    Multikills = np.zeros(10)
-    Trades = np.zeros(10)
-    OpKills = np.zeros((10,68))
-    OpDeaths = np.zeros((10,68))
-    OpEKills = np.zeros((10,68))
-    OpEDeaths = np.zeros((10,68))
-    OpHS = np.zeros((10,68))
-    OpPlants = np.zeros((10,68))
-    OpDefusal = np.zeros((10,68))
-    OpKOST = np.zeros((10,68))
-    OpKOSTRound = np.zeros((10,68))
-    OpClutches = np.zeros((10,68))
-    OpMultikills = np.zeros((10,68))
-    OpTrades = np.zeros((10,68))
-    OpRounds = np.zeros((10,68))
-    #Takes the first round map name to output
-    Map = dict["rounds"][0]["map"]["name"]
-    #takes the total number of kills in the map and hs percent and rounds played
-    for i in range(10):
-        #Appends list at the end of rounds to track the basic stats that is given, could be improved if needed
-        UsernameList.append(dict["stats"][i]["username"])
-        KAmount.append(dict["stats"][i]["kills"])
-        DAmount.append(dict["stats"][i]["deaths"])
-        HSPercent.append(dict["stats"][i]["headshotPercentage"])
-        RoundCount.append(dict["stats"][i]["rounds"])
-        #creates a lookup table for each player, 0-9 based on name and how incrememented in the json file
-        #Makes it easier to upload names to further stats, because can organize players
-        UsernameLookup[UsernameList[i]] = i
-    #large loop to look at all rounds
-    #!! Restructing Note, should do a double for loop where outer loop is rounds, and inner loops in actions in rounds !!
-    for i in range(len(dict["rounds"])):
-        j = 0
-        #actions is number of occurences in the 'main phase' of each round, contains everything that a player can do to impact each round
-        #!!2 Different logics between while and for loop, should restructure!!
-        
-        #Updates team score each round, so the final score is output at the end of all rounds
-        Team1Score = dict["rounds"][i]["teams"][0]["score"]
-        Team2Score = dict["rounds"][i]["teams"][1]["score"]
-        actions = len(dict["rounds"][i]["matchFeedback"])
-        #loops through all the actions looking for the first kill to occur
-        for v in range(len(dict["rounds"][i]["players"])):
-            
-            #if the operator that is selected by the player is > 33 it is an attacker by my dictionary, otherwise its a defender
-            #if an attacker, needs to check if a repick occurs
-            if(Operators[dict["rounds"][i]["players"][v]["operator"]["name"]] > 33):
-                #Puts the Player on the operator that they played that round in their 'spot' in the array, and given a numerical value from the dict 'Operators'
-                RoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]] = Operators[dict["rounds"][i]["players"][v]["operator"]["name"]]
-                #as attackers can swap in prep phase, look for the match feedback for an operator swap and update the value
-                #Checks through all the round actions to see if an operator is swapped off
-                for c in range(actions):
-                    if(dict["rounds"][i]["matchFeedback"][c]["type"]["name"] == "OperatorSwap"):
-                        #Updates the value in similar value
-                        RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][c]["username"]]] = Operators[dict["rounds"][i]["matchFeedback"][c]["operator"]["name"]]
-                        
-            else:
-                #Defenders do not change, so the first time seen can be set
-                RoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]] = Operators[dict["rounds"][i]["players"][v]["operator"]["name"]]
-            #Hard to read
-            #Puts all the operator plays into the 2d array for the Operator Stats Page, Puts the username lookup and and operator location and increments the play count
-            OpRounds[UsernameLookup[dict["rounds"][i]["players"][v]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]]] = OpRounds[UsernameLookup[dict["rounds"][i]["players"][v]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]]] + 1
-        
-        #Loops for opening kill
-        while(dict["rounds"][i]["matchFeedback"][j]["type"]["name"] != "Kill"):
-            #Will cause a runtime error if last loop and final thing is a kill
-            j = j+1
-            #edgecase that no kills occur
-            #Further Testing needed on if this works
-            if(j == actions):
-                break
-        #when the first kill occurs give a kill and death to user and target respectively
-        #also added to individual op per player deaths 
-        if(j<actions):
-            EntryKills[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]] = EntryKills[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]] + 1
-            EntryDeaths[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]]] = EntryDeaths[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]]] + 1
-            OpEKills[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]]] = OpEKills[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]]] + 1
-            OpEDeaths[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]]]] = OpEDeaths[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["target"]]]] + 1
-        j=0
-        
-        #looks for the plant to go down
-        while(dict["rounds"][i]["matchFeedback"][j]["type"]["name"] != "DefuserPlantComplete"):
-            j = j+1
-            if(j == actions):
-                break
-        #gives the planter a point if they get defuser down and what operator they played
-        if(j<actions):
-            Plants[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]] = Plants[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]] + 1
-            OpPlants[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]]] = OpPlants[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][j]["username"]]]]+1
-
-        #tracks KOST (Kills, Objectives[plants], Survival, Trades)
-        KOSTRounds = np.zeros(10)
-        #If did nothing but lived, should have 1
-        KOSTSurv = np.ones(10)
-        OpKOSTRound = np.zeros((10,OpNumbers))
-        #looks for survival rate and trades
-        for k in range(len(dict["rounds"][i]["matchFeedback"])):
-            if(dict["rounds"][i]["matchFeedback"][k]["type"]["name"] == "Kill"):
-                #If a kill happens, the round is counted for KOST, but not survival
-                KOSTRounds[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["username"]]] = 1
-                KOSTSurv[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]] = 0
-                #looks for trades, when a user dies, capture tOD and who killed them
-                #then iterate through until the time is past the time to trade to see if the trade occurs
-                timeOfDeath = dict["rounds"][i]["matchFeedback"][k]["timeInSeconds"]
-                UserToBeTraded = dict["rounds"][i]["matchFeedback"][k]["username"]
-                l=0
-                #If the time happens, loops through all actions to see if it is within the 10 second trade time, otherwise go to next action
-                while(timeOfDeath-timeToTrade < dict["rounds"][i]["matchFeedback"][k+l]["timeInSeconds"]):
-                    if(dict["rounds"][i]["matchFeedback"][k+l]["type"]["name"] == "Kill" and dict["rounds"][i]["matchFeedback"][k+l]["target"] == UserToBeTraded):
-                        KOSTRounds[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]] = 1
-                        Trades[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]] = Trades[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]] + 1
-                        OpTrades[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]]] = OpTrades[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]],RoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["target"]]]] + 1
-                        break
-                    else:
-                        l = l+1
-                        if(k+l == actions):
-                            break
-                
-            #adds plant if get plant down
-            elif(dict["rounds"][i]["matchFeedback"][k]["type"]["name"] == "DefuserPlantComplete"):
-                KOSTRounds[UsernameLookup[dict["rounds"][i]["matchFeedback"][k]["username"]]] = 1
-        #adds a round where you add to your kost, makes sure not to duplicate if 2 things occur in a round
-        #Adds rounds to if they survived
-        KOSTRounds = KOSTRounds + KOSTSurv
-        
-        #If higher than one, sets back to 1 to not overrate the KOST rounds if someone does more than one KOST action in a round
-        for n in range(len(KOSTRounds)):
-            if(KOSTRounds[n] > 1):
-                KOSTRounds[n] = 1
-            OpKOSTRound[n, RoundOps[n]] = KOSTRounds[n]
-        #Adds the KOST to total number of rounds that players achieved during the number of rounds
-        KOSTTotal = KOSTTotal + KOSTRounds
-        OpKOST = OpKOST + OpKOSTRound
-
-        #tracks each user for their multikills over a game
-        #Checks for HS percentage and Kills for operators per round, also looks to see if number of kills was greater than 1
-        for g in range(len(dict["rounds"][i]["stats"])):
-            
-            OpKills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] = OpKills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] + dict["rounds"][i]["stats"][g]["kills"]
-            OpHS[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] = OpHS[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] + dict["rounds"][i]["stats"][g]["headshots"]
-            if(dict["rounds"][i]["stats"][g]["died"] == True):
-                OpDeaths[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] = OpDeaths[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]],RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] + 1
-            if(dict["rounds"][i]["stats"][g]["kills"] > 1):
-                Multikills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]] = Multikills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]] + 1
-                OpMultikills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]], RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] = OpMultikills[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]], RoundOps[UsernameLookup[dict["rounds"][i]["stats"][g]["username"]]]] + 1
-        
-        #tracks clutching based on if your team won and you were the only player on your team alive
-        if(dict["rounds"][i]["teams"][0]["won"] == True):
-            WinningTeam = 0
-        else:
-            WinningTeam = 1
-        
-        #start with 5 players alive on the winning team, if a winning team member dies, then reduce the number alive
-        #add winning round members
-        WinningTeamMembers = []
-        ClutchPlayer = ''
-        for m in range(len(dict["rounds"][i]["players"])):
-            if(dict["rounds"][i]["players"][m]["teamIndex"] == WinningTeam):
-                WinningTeamMembers.append(dict["rounds"][i]["players"][m]["username"])
-        ClutchAlive = 5
-        #if the winning team member died, then reduce the number, else assign that person the clutch player, if nobody is alive on a team then this doesnt get added to clutch total
-        for a in range(len(WinningTeamMembers)):
-            for b in range(len(dict["rounds"][i]["stats"])):
-                if(WinningTeamMembers[a] == dict["rounds"][i]["stats"][b]["username"] and dict["rounds"][i]["stats"][b]["died"] == True):
-                    ClutchAlive = ClutchAlive - 1
-                else:
-                    ClutchPlayer = dict["rounds"][i]["stats"][b]["username"]
-        #Check again to see that only 1 player was alive on the winning team to confirm that it is a clutch and give it to player and the operator they played that round
-        if(ClutchAlive == 1):
-            Clutches[UsernameLookup[ClutchPlayer]] = Clutches[UsernameLookup[ClutchPlayer]] + 1
-            OpClutches[UsernameLookup[ClutchPlayer],RoundOps[UsernameLookup[ClutchPlayer]]] = OpClutches[UsernameLookup[ClutchPlayer],RoundOps[UsernameLookup[ClutchPlayer]]] + 1
-
-        #find most played operator
-        ARoundOps = np.full(10,-1)
-        DRoundOps = np.full(10,-1)
-        #look through all players
-        for v in range(len(dict["rounds"][i]["players"])):
-            
-            #if the operator that is selected by the player is > 33 it is an attacker by my dictionary, otherwise its a defender
-            if(Operators[dict["rounds"][i]["players"][v]["operator"]["name"]] > 33):
-                ARoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]] = Operators[dict["rounds"][i]["players"][v]["operator"]["name"]]
-                
-                #as attackers can swap in prep phase, look for the match feedback for an operator swap and update the value
-                for c in range(actions):
-                    if(dict["rounds"][i]["matchFeedback"][c]["type"]["name"] == "OperatorSwap"):
-                        ARoundOps[UsernameLookup[dict["rounds"][i]["matchFeedback"][c]["username"]]] = Operators[dict["rounds"][i]["matchFeedback"][c]["operator"]["name"]]
-            #defenders will be the same            
-            else:
-                DRoundOps[UsernameLookup[dict["rounds"][i]["players"][v]["username"]]] = Operators[dict["rounds"][i]["players"][v]["operator"]["name"]]
-                
-        #use the dict defined numerical value of the op to add to a total array
-        ATotalOps = np.append(ATotalOps, ARoundOps)
-        DTotalOps = np.append(DTotalOps, DRoundOps)
-        #find all main ops by using array math to loop through and find each players most played operator
-    for z in range(len(dict["rounds"][1]["players"])):
-        AMainOp = np.array([])
-        DMainOp = np.array([])
-        #Separate players into their individual operators to check for main operator that a single person
-        for q in range(len(dict["rounds"])):
-            AMainOp = np.append(AMainOp, ATotalOps[q*10 + z])
-            AMainOp = AMainOp[AMainOp>=0]
-            DMainOp = np.append(DMainOp, DTotalOps[q*10 + z])
-            DMainOp = DMainOp[DMainOp>=0]
-        #add each users main op back to main array
-        #Create an array to check what the main operator each person played
-        AMain = statistics.mode(AMainOp)
-        AMain = int(AMain)
-        DMain = statistics.mode(DMainOp)
-        AtkMain.append(OperatorsValues[AMain])
-        DefMain.append(OperatorsValues[DMain])
-    
-        
-    #all return values are array values of # of players
-    return [UsernameList,KAmount,DAmount,EntryKills,EntryDeaths,KOSTTotal, HSPercent,Multikills,Trades, Clutches, Plants,Defusal,AtkMain,DefMain,RoundCount, OpKills, OpDeaths, OpEKills, OpEDeaths, OpKOST, OpHS, OpMultikills, OpTrades, OpClutches, OpPlants,OpDefusal, OpRounds, Map, Team1Score, Team2Score, Team1Name, Team2Name]
-        
-
 
         
 #open the json file i am parsing
-with open("C:\\Users\\jakeg\\OneDrive\\Desktop\\r6-dissect-v0.11.1-windows-amd64\\scrim6.json", 'r') as f:
+with open("/home/gabe/Documents/MatchStats/json_test/scrim6.json", 'r') as f:
     my_dict = json.load(f)
 
 #function to parse data
-[Users, Kills, Deaths, EKills, EDeaths, KOST, HS, MK, Trade, Clutch, Plant, Defuse, AttackerMain, DefenderMain, Rounds, OperatorKills, OperatorDeaths, OperatorEntryKills, OperatorEntryDeaths, OperatorKOST, OperatorHS, OperatorMKills, OperatorTrades, OperatorClutch, OperatorPlants, OperatorDefusal, OperatorRounds, MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name] = singleMap(my_dict)
+[Users, Kills, Deaths, EKills, EDeaths, KOST, HS, MK, Trade, Clutch, Plant, Defuse, AttackerMain, DefenderMain, Rounds, OperatorKills, OperatorDeaths, OperatorEntryKills, OperatorEntryDeaths, OperatorKOST, OperatorHS, OperatorMKills, OperatorTrades, OperatorClutch, OperatorPlants, OperatorDefusal, OperatorRounds, MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name] = SingleMap.singleMap(my_dict)
 
 #use for loop as basic tool to print all player data, similar to siege GG
 players = []
@@ -607,7 +185,7 @@ for i in range(len(Users)):
             OperatorKPR[j] = OperatorKills[i][j]/OperatorRounds[i][j]
             OperatorSRV[j] = (OperatorRounds[i][j] - OperatorDeaths[i][j])/OperatorRounds[i][j]
 
-    player = BasicStats(Users[i],Kills[i],Deaths[i],KD,EKills[i],EDeaths[i],Entry,KOSTAmount,KPR,SRV,MK[i],Trade[i],Clutch[i],Plant[i],Defuse[i],HS[i],AttackerMain[i], DefenderMain[i], Rounds[i],OperatorKills[i], OperatorDeaths[i],OperatorKD, OperatorEntryKills[i], OperatorEntryDeaths[i], OperatorEntry, OperatorKOSTAmount, OperatorKPR, OperatorSRV, OperatorMKills[i], OperatorTrades[i], OperatorClutch[i], OperatorPlants[i], OperatorDefusal[i], OperatorHS[i], OperatorRounds[i], MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name)
+    player = BasicStats.BasicStats(Users[i],Kills[i],Deaths[i],KD,EKills[i],EDeaths[i],Entry,KOSTAmount,KPR,SRV,MK[i],Trade[i],Clutch[i],Plant[i],Defuse[i],HS[i],AttackerMain[i], DefenderMain[i], Rounds[i],OperatorKills[i], OperatorDeaths[i],OperatorKD, OperatorEntryKills[i], OperatorEntryDeaths[i], OperatorEntry, OperatorKOSTAmount, OperatorKPR, OperatorSRV, OperatorMKills[i], OperatorTrades[i], OperatorClutch[i], OperatorPlants[i], OperatorDefusal[i], OperatorHS[i], OperatorRounds[i], MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name)
     players.append(player)
     #Prints to terminal
     if(i==0):
@@ -634,7 +212,7 @@ for i in range(len(Users)):
         singleUser = []
         tempKD = 0
         #Same stopping of infinite values and replacing or undefined values
-        for b in range(len(Operators)):
+        for b in range(len(Operators.Operators)):
             if OperatorKills[i][b] == 0:
                 tempHS = 0
             else:
@@ -680,14 +258,14 @@ for i in range(len(Users)):
         maxAtkRating = max(OperatorAtkRating)
         
         #Append these values to the user array for excel
-        singleUser.append(OperatorsValues[34+maxAtkRounds])
-        singleUser.append(OperatorRounds[i][34+maxAtkRounds])
-        singleUser.append(OperatorsValues[maxDefRounds])
-        singleUser.append(OperatorRounds[i][maxDefRounds])
+        singleUser.append(Operators.OperatorsValues[34+maxAtkRounds])
+        singleUser.append(Operators.OperatorRounds[i][34+maxAtkRounds])
+        singleUser.append(Operators.OperatorsValues[maxDefRounds])
+        singleUser.append(Operators.OperatorRounds[i][maxDefRounds])
         
-        singleUser.append(OperatorsValues[34+OperatorAtkRating.index(maxAtkRating)])
+        singleUser.append(Operators.OperatorsValues[34+OperatorAtkRating.index(maxAtkRating)])
         singleUser.append(OperatorRating[34+OperatorAtkRating.index(maxAtkRating)])
-        singleUser.append(OperatorsValues[OperatorDefRating.index(maxDefRating)])
+        singleUser.append(Operators.OperatorsValues[OperatorDefRating.index(maxDefRating)])
         singleUser.append(OperatorRating[OperatorDefRating.index(maxDefRating)])
 
         #Adds the operator values to the single User arrays
@@ -703,7 +281,7 @@ for i in range(len(Users)):
         #Add values the operator array that will be put into the excel
         #Updates the operator values that already exist in the values
         #Offsets based on excel to access the correct data
-        for d in range(len(Operators)):
+        for d in range(len(SingleMap.Operators.Operators)):
             #This is checking headshots and headshot value
             if Op_array[matchingValue][10+12*d] == 0:
                 Op_array[matchingValue][15+12*d] = 0
@@ -749,13 +327,13 @@ for i in range(len(Users)):
         maxDefRating = max(tempDefRating)
         maxAtkRounds = max(tempAtkRounds)
         maxDefRounds = max(tempDefRounds)
-        Op_array[matchingValue][1] = OperatorsValues[34+tempAtkRounds.index(maxAtkRounds)]
+        Op_array[matchingValue][1] = Operators.OperatorsValues[34+tempAtkRounds.index(maxAtkRounds)]
         Op_array[matchingValue][2] = maxAtkRounds
-        Op_array[matchingValue][3] = OperatorsValues[tempDefRounds.index(maxDefRounds)]
+        Op_array[matchingValue][3] = Operators.OperatorsValues[tempDefRounds.index(maxDefRounds)]
         Op_array[matchingValue][4] = maxDefRounds
-        Op_array[matchingValue][5] = OperatorsValues[34+tempAtkRating.index(maxAtkRating)]
+        Op_array[matchingValue][5] = Operators.OperatorsValues[34+tempAtkRating.index(maxAtkRating)]
         Op_array[matchingValue][6] = maxAtkRating
-        Op_array[matchingValue][7] = OperatorsValues[tempDefRating.index(maxDefRating)]
+        Op_array[matchingValue][7] = Operators.OperatorsValues[tempDefRating.index(maxDefRating)]
         Op_array[matchingValue][8] = maxDefRating
             
             
