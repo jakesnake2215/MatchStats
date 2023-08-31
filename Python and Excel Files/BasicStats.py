@@ -1,4 +1,5 @@
 import numpy as np
+import Operators
 class BasicStats:
     #Initializes variables, (Why do I have to do this?)
     def __init__(self, Username, Kills, Deaths, KD, EKills, EDeaths, Entry, KOST, KPR, SRV, MKills, Trade, Clutch, Plants, Defuse, HSPercent, FavAtk, FavDef, Rounds, OpK, OpD, OpKD, OpEK, OpED, OpEntry, OpKOST, OpKPR, OpSRV, OpMKills, OpTrade, OpClutch, OpPlants, OpDefuse, OpHS, OpRounds, MapPlayed, Team1Score, Team2Score, Team1Name, Team2Name):
@@ -103,9 +104,9 @@ class BasicStats:
         print(formatted_string)
     #Define ratings for Operator Ratings for a player
     def OperatorRating(self):
-        OperatorRating = np.zeros(OpNumbers)
+        OperatorRating = np.zeros(Operators.OpNumbers)
         #rating = (1.5*self.KD + 0.25*(self.Kills) + 0.15*self.MKills)/self.Rounds + 0.75*(self.Entry)/self.Rounds + (self.Plants + self.Clutch)/self.Rounds + self.KOST + self.SRV/3
-        for j in (range(OpNumbers)):
+        for j in (range(Operators.OpNumbers)):
             if self.OpRounds[j] == 0:
                 OperatorRating[j] = 0
             else:
@@ -114,10 +115,10 @@ class BasicStats:
     #Simple Way to read all player Operator Rating, just in python currently, but could be phased out
     def AllOps(self):
         Op = self.OperatorRating()
-        for k in (range(OpNumbers)):
+        for k in (range(Operators.OpNumbers)):
             number_str = Op[k]
             roundedRating = "{:.2f}".format(float(number_str))
-            print(OperatorsValues[k] + ': ' + roundedRating)
+            print(Operators.OperatorsValues[k] + ': ' + roundedRating)
     #Similar to above, can look at individual player and full rating for a single operator, python only, either phase out or can be used in maybe a different aspect
     #Very similar formatting to the full list for a single map, should be merged
     def SingleOperatorStats(self, inputStr):
